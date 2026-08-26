@@ -31,6 +31,7 @@ import { SessionCleanupService } from './utils/multer/taskService';
 import { NotificationModule } from './main/notification/notification.module';
 import { FeaturedPropertyModule } from './main/featured-property/featured-property.module';
 import { VacanzaProtectModule } from './main/vacanza-protect/vacanza-protect.module';
+import { CallModule } from './main/call/call.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { VacanzaProtectModule } from './main/vacanza-protect/vacanza-protect.mod
     NotificationModule,
     FeaturedPropertyModule,
     VacanzaProtectModule,
+    CallModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService, MailService, TwilioService, SeederService, SessionCleanupService],

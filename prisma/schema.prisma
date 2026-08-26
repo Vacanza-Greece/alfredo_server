@@ -66,6 +66,25 @@ model User {
   blockedByUsers           BlockedUser[]       @relation("Blocked")
   deletedChats             DeletedChat[]
   protectPurchases         ProtectPurchase[]
+  callsMade                Call[]              @relation("Caller")
+  callsReceived            Call[]              @relation("Callee")
+}
+
+model Call {
+  id         String     @id
+  callerId   String
+  calleeId   String
+  callType   CallType
+  status     CallStatus @default(RINGING)
+  startedAt  DateTime   @default(now())
+  answeredAt DateTime?
+  endedAt    DateTime?
+  endReason  String?
+  caller     User       @relation("Caller", fields: [callerId], references: [id], onDelete: Cascade)
+  callee     User       @relation("Callee", fields: [calleeId], references: [id], onDelete: Cascade)
+
+  @@index([callerId, calleeId])
+  @@index([startedAt])
 }
 
 model ActiveSession {
@@ -639,4 +658,18 @@ enum SubscriptionStatus {
 enum MessageStatus {
   SENT
   READ
+}
+
+enum CallType {
+  AUDIO
+  VIDEO
+}
+
+enum CallStatus {
+  RINGING
+  ANSWERED
+  COMPLETED
+  MISSED
+  DECLINED
+  FAILED
 }
